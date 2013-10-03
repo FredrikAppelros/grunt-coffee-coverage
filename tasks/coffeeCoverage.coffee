@@ -5,8 +5,8 @@ path = require 'path'
 
 module.exports = (grunt) ->
     grunt.registerMultiTask 'coffeeCoverage', ->
-        instrumentor = new cc.CoverageInstrumentor
         options = @options()
+        instrumentor = new cc.CoverageInstrumentor options
 
         instrument = =>
             for files in @files
