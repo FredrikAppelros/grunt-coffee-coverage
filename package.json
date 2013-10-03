@@ -5,8 +5,8 @@
     "gruntplugin",
     "coffee-coverage"
   ],
-  "version": "0.1.2",
-  "homepage": "https://github.com/FredrikAppelros/grunt-coffee-coverage.git",
+  "version": "0.1.3",
+  "homepage": "https://github.com/FredrikAppelros/grunt-coffee-coverage",
   "author": {
     "name": "Vyacheslav Slinko",
     "email": "vyacheslav.slinko@gmail.com"
