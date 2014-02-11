@@ -20,7 +20,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "coffee-coverage": "~0.1",
+    "coffee-coverage": "~0.4.2",
     "mkdirp": "~0.3.5"
   },
   "devDependencies": {
