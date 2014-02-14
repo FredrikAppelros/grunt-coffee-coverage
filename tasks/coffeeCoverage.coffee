@@ -17,10 +17,10 @@ module.exports = (grunt) ->
         if options.initFile?
             done = @async()
             initPath = path.dirname options.initFile
-            mkdirp initPath, (err) =>
+            mkdirp initPath, (err) ->
                 grunt.fail.warn err if err?
                 options.initFileStream = fs.createWriteStream options.initFile
-                options.initFileStream.on 'open', =>
+                options.initFileStream.on 'open', ->
                     instrument()
                     options.initFileStream.end()
                     done()
