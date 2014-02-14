@@ -1,27 +1,26 @@
-cc = require 'coffee-coverage'
-fs = require 'fs'
-mkdirp = require 'mkdirp'
-path = require 'path'
+fs                     = require "fs"
+path                   = require "path"
+{CoverageInstrumentor} = require "coffee-coverage"
 
 module.exports = (grunt) ->
-    grunt.registerMultiTask 'coffeeCoverage', ->
-        options = @options()
-        instrumentor = new cc.CoverageInstrumentor options
+  grunt.registerMultiTask "coffeeCoverage", ->
+    options = @options()
+    coverageInstrumentor = new CoverageInstrumentor options
 
-        instrument = =>
-            for files in @files
-                for file in files.src
-                    result = instrumentor.instrument file, files.dest, options
-                    grunt.log.writeln "Annotated #{result.lines} lines."
+    instrument = =>
+      for files in @files
+        for file in files.src
+          result = coverageInstrumentor.instrument file, files.dest, options
+          grunt.log.writeln "Annotated #{result.lines} lines."
 
-        if options.initFile?
-            done = @async()
-            initPath = path.dirname options.initFile
-            mkdirp initPath, (err) ->
-                grunt.fail.warn err if err?
-                options.initFileStream = fs.createWriteStream options.initFile
-                options.initFileStream.on 'open', ->
-                    instrument()
-                    options.initFileStream.end()
-                    done()
-        else instrument()
+    if options.initfile?
+      done = @async()
+
+      grunt.file.mkdir path.dirname options.initfile
+      options.initFileStream = fs.createWriteStream options.initfile
+
+      options.initFileStream.on "open", ->
+        instrument()
+        options.initFileStream.end done
+
+    else instrument()
