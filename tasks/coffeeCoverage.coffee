@@ -1,12 +1,11 @@
-cc = require 'coffee-coverage'
-fs = require 'fs'
-mkdirp = require 'mkdirp'
-path = require 'path'
+fs                     = require "fs"
+path                   = require "path"
+{CoverageInstrumentor} = require "coffee-coverage"
 
 module.exports = (grunt) ->
-    grunt.registerMultiTask 'coffeeCoverage', ->
+    grunt.registerMultiTask "coffeeCoverage", ->
         options = @options()
-        instrumentor = new cc.CoverageInstrumentor options
+        instrumentor = new CoverageInstrumentor options
 
         instrument = =>
             for files in @files
@@ -16,12 +15,12 @@ module.exports = (grunt) ->
 
         if options.initFile?
             done = @async()
-            initPath = path.dirname options.initFile
-            mkdirp initPath, (err) ->
-                grunt.fail.warn err if err?
-                options.initFileStream = fs.createWriteStream options.initFile
-                options.initFileStream.on 'open', ->
-                    instrument()
-                    options.initFileStream.end()
-                    done()
+
+            grunt.file.mkdir path.dirname options.initFile
+            options.initFileStream = fs.createWriteStream options.initFile
+
+            options.initFileStream.on "open", ->
+                instrument()
+                options.initFileStream.end done
+
         else instrument()
